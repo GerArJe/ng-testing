@@ -7,6 +7,7 @@ import {
 import { ProductsService } from './product.service';
 import { Product } from '../models/product.model';
 import { environment } from './../../environments/environment';
+import { generateManyProducts, generateOneProduct } from '../models/product.mock';
 
 fdescribe('ProductsService', () => {
   let productsService: ProductsService;
@@ -28,19 +29,7 @@ fdescribe('ProductsService', () => {
 
   describe('Tests for getAllSimple', () => {
     it('should return a product list', (doneFn) => {
-      const mockData: Product[] = [
-        {
-          id: '123',
-          title: 'title',
-          price: 12,
-          description: 'description',
-          category: {
-            id: 122,
-            name: 'name',
-          },
-          images: ['img', 'img'],
-        },
-      ];
+      const mockData: Product[] = generateManyProducts();
 
       productsService.getAllSimple().subscribe((data) => {
         expect(data.length).toEqual(mockData.length);

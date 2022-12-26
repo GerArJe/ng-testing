@@ -27,6 +27,7 @@
     "@angular-devkit/build-angular": "^15.0.2",
     "@angular/cli": "^15.0.2",
     "@angular/compiler-cli": "^15.0.2",
+    "@faker-js/faker": "^7.6.0",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.10.0",
