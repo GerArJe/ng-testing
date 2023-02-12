@@ -45,7 +45,7 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ["Chrome"],
     customLaunchers: {
-      ChromeCi: {
+      ChromeCI: {
         base: "Chrome",
         flags: ["--no-sandbox"],
       },
