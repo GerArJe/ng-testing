@@ -11,7 +11,7 @@ module.exports = function (config) {
       require("karma-jasmine-html-reporter"),
       require("karma-coverage"),
       require("@angular-devkit/build-angular/plugins/karma"),
-      require('karma-mocha-reporter')
+      require("karma-mocha-reporter"),
     ],
     client: {
       jasmine: {
@@ -38,12 +38,18 @@ module.exports = function (config) {
         },
       },
     },
-    reporters: ['mocha'],
+    reporters: ["mocha"],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ["Chrome"],
+    customLaunchers: {
+      ChromeCi: {
+        base: "Chrome",
+        flags: ["--no-sandbox"],
+      },
+    },
     singleRun: false,
     restartOnFileChange: true,
   });
