@@ -9,9 +9,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { PersonComponent } from './components/person/person.component';
+import { PeopleComponent } from './components/people/people.component';
 
 @NgModule({
-  declarations: [AppComponent, ProductsComponent, PicoPreviewComponent, PersonComponent],
+  declarations: [AppComponent, ProductsComponent, PicoPreviewComponent, PersonComponent, PeopleComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
