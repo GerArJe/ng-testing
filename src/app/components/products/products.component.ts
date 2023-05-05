@@ -10,6 +10,9 @@ import { Product } from '../../models/product.model';
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
+  limit: number = 10;
+  offset: number = 0;
+  status: 'loading' | 'success' | 'error' | 'init' = 'init';
 
   constructor(private productsService: ProductsService) {}
 
@@ -18,8 +21,13 @@ export class ProductsComponent implements OnInit {
   }
 
   getAllProducts() {
-    this.productsService.getAll().subscribe((products) => {
-      this.products = products;
-    });
+    this.status = 'loading';
+    this.productsService
+      .getAll(this.limit, this.offset)
+      .subscribe((products) => {
+        this.products = [...this.products, ...products];
+        this.offset += this.limit;
+        this.status = 'success';
+      });
   }
 }

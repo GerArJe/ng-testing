@@ -12,28 +12,42 @@ describe('ProductsComponent', () => {
   let productService: jasmine.SpyObj<ProductsService>;
 
   beforeEach(async () => {
-    const productServiceSpy = jasmine.createSpyObj('ProductsService', ['getAll']);
+    const productServiceSpy = jasmine.createSpyObj('ProductsService', [
+      'getAll',
+    ]);
     await TestBed.configureTestingModule({
       declarations: [ProductsComponent, ProductComponent],
       imports: [],
-      providers: [
-        ProductsService,
-        { provide: ProductsService, useValue: productServiceSpy },
-      ],
+      providers: [{ provide: ProductsService, useValue: productServiceSpy }],
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(ProductsComponent);
     component = fixture.componentInstance;
-    productService = TestBed.inject(ProductsService) as jasmine.SpyObj<ProductsService>;
-   
+    productService = TestBed.inject(
+      ProductsService
+    ) as jasmine.SpyObj<ProductsService>;
+    const productsMock = generateManyProducts(3);
+    productService.getAll.and.returnValue(of(productsMock));
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    const productsMock = generateManyProducts(3);
-    productService.getAll.and.returnValue(of(productsMock));
-
-    fixture.detectChanges();
     expect(component).toBeTruthy();
     expect(productService.getAll).toHaveBeenCalled();
+  });
+
+  describe('tests for getAllProducts', () => {
+    it('should return product list from service', () => {
+      const productsMock = generateManyProducts(10);
+      productService.getAll.and.returnValue(of(productsMock));
+      const countPrev = component.products.length;
+
+      component.getAllProducts();
+      fixture.detectChanges();
+
+      expect(component.products.length).toEqual(productsMock.length + countPrev);
+    });
   });
 });
