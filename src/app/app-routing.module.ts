@@ -4,25 +4,29 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductsComponent } from './components/products/products.component';
 import { PicoPreviewComponent } from './components/pico-preview/pico-preview.component';
 import { PeopleComponent } from './components/people/people.component';
+import { OthersComponent } from './components/others/others.component';
 
 const routes: Routes = [
   {
     path: 'products',
-    component: ProductsComponent
+    component: ProductsComponent,
   },
   {
     path: 'pico-preview',
-    component: PicoPreviewComponent
+    component: PicoPreviewComponent,
   },
   {
     path: 'people',
-    component: PeopleComponent
+    component: PeopleComponent,
   },
-
+  {
+    path: 'others',
+    component: OthersComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
