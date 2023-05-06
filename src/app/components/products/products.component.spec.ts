@@ -11,6 +11,7 @@ import { ProductsComponent } from './products.component';
 import { ProductComponent } from '../product/product.component';
 import { generateManyProducts } from '../../models/product.mock';
 import { ValueService } from '../../services/value.service';
+import { By } from '@angular/platform-browser';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent;
@@ -57,8 +58,9 @@ describe('ProductsComponent', () => {
       const productsMock = generateManyProducts(10);
       productService.getAll.and.returnValue(of(productsMock));
       const countPrev = component.products.length;
-
-      component.getAllProducts();
+      const btnDebug = fixture.debugElement.query(By.css('.btn-get-all'));
+      
+      btnDebug.triggerEventHandler('click', null);
       fixture.detectChanges();
 
       expect(component.products.length).toEqual(
@@ -71,8 +73,9 @@ describe('ProductsComponent', () => {
       productService.getAll.and.returnValue(
         defer(() => Promise.resolve(productsMock))
       );
-
-      component.getAllProducts();
+      const btnDebug = fixture.debugElement.query(By.css('.btn-get-all'));
+      
+      btnDebug.triggerEventHandler('click', null);
       fixture.detectChanges();
 
       expect(component.status).toEqual('loading');
@@ -87,8 +90,9 @@ describe('ProductsComponent', () => {
       productService.getAll.and.returnValue(
         defer(() => Promise.reject('error'))
       );
-
-      component.getAllProducts();
+      const btnDebug = fixture.debugElement.query(By.css('.btn-get-all'));
+      
+      btnDebug.triggerEventHandler('click', null);
       fixture.detectChanges();
 
       expect(component.status).toEqual('loading');
@@ -101,7 +105,7 @@ describe('ProductsComponent', () => {
   });
 
   describe('test for callPromise', () => {
-    it('should call promise', async() => {
+    it('should call promise', async () => {
       const mockMsg = 'My mock string';
       valueService.getPromiseValue.and.returnValue(Promise.resolve(mockMsg));
 
@@ -111,5 +115,20 @@ describe('ProductsComponent', () => {
       expect(component.rta).toEqual(mockMsg);
       expect(valueService.getPromiseValue).toHaveBeenCalled();
     });
+
+    it('should show "my mock string in <p> when btn was clicked"',  fakeAsync(() => {
+      const mockMsg = 'My mock string';
+      valueService.getPromiseValue.and.returnValue(Promise.resolve(mockMsg));
+      const btnDebug = fixture.debugElement.query(By.css('.btn-promise'));
+
+      btnDebug.triggerEventHandler('click', null);
+      tick();
+      fixture.detectChanges();
+      const rtaDebug = fixture.debugElement.query(By.css('p.rta'));
+
+      expect(component.rta).toEqual(mockMsg);
+      expect(valueService.getPromiseValue).toHaveBeenCalled();
+      expect(rtaDebug.nativeElement.textContent).toEqual(mockMsg);
+    }));
   });
 });
