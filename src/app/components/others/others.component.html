@@ -2,5 +2,9 @@
   <h3>Directiva</h3>
   <h5 highlight>default</h5>
   <h5 [highlight]="'yellow'">yellow</h5>
-  <input [(ngModel)]="color" [highlight]="color"/>
+  <input [(ngModel)]="color" [highlight]="color" />
+  <h3>Pipe</h3>
+  <p>{{ "my text" | reverse }}</p>
+  <input [(ngModel)]="text"  />
+  <p>{{ text | reverse }}</p>
 </section>
