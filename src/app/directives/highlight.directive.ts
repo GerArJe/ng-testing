@@ -3,7 +3,6 @@ import {
   ElementRef,
   Input,
   OnChanges,
-  SimpleChanges,
 } from '@angular/core';
 
 @Directive({
