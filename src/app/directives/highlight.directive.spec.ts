@@ -1,6 +1,7 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { HighlightDirective } from './highlight.directive';
 
@@ -10,9 +11,12 @@ import { HighlightDirective } from './highlight.directive';
     <h5 highlight="yellow">yellow</h5>
     <p highlight="blue">parrafo</p>
     <p>otro parrafo</p>
+    <input [(ngModel)]="color" [highlight]="color"/>
   `,
 })
-class HostComponent {}
+class HostComponent {
+  color = 'pink'
+}
 
 describe('HighlightDirective', () => {
   let component: HostComponent;
@@ -21,6 +25,7 @@ describe('HighlightDirective', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HostComponent, HighlightDirective],
+      imports: [FormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HostComponent);
@@ -39,8 +44,8 @@ describe('HighlightDirective', () => {
     const elementsWithout = fixture.debugElement.queryAll(
       By.css('*:not([highlight])')
     );
-    expect(elements.length).toEqual(3);
-    expect(elementsWithout.length).toEqual(1);
+    expect(elements.length).toEqual(4);
+    expect(elementsWithout.length).toEqual(2);
   });
 
   it('should the elements be match with bgColor', () => {
@@ -58,5 +63,19 @@ describe('HighlightDirective', () => {
     expect(titleDe.nativeElement.style.backgroundColor).toEqual(
       dir.defaultColor
     );
+  });
+
+  it('should bind <input> and change the bgColor', () => {
+    const inputDe = fixture.debugElement.query(By.css('input'));
+    const inputEl: HTMLInputElement = inputDe.nativeElement
+
+    expect(inputEl.style.backgroundColor).toEqual('pink');
+
+    inputEl.value = 'red';
+    inputEl.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(inputEl.style.backgroundColor).toEqual('red');
+    expect(component.color).toEqual('red');
   });
 });
